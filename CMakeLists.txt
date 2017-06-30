@@ -17,3 +17,5 @@ include_directories("include")
 include_directories("3rd_party/range-v3/include")
 
 add_library(myers_diff src/myers_diff.cpp)
+
+add_subdirectory(test)
