@@ -3,9 +3,7 @@
 
 #include <cstdint>
 #include <functional>
-#include <utility>
-
-#include <boost/numeric/conversion/cast.hpp>
+#include <iterator>
 
 namespace myers_diff {
 

@@ -4,12 +4,12 @@
 
 #include <cassert>
 #include <iostream>
-#include <iterator>
 #include <optional>
 #include <utility>
 #include <vector>
 
 #include <boost/format.hpp>
+#include <boost/numeric/conversion/cast.hpp>
 
 #include <range/v3/iterator_range.hpp>
 #include <range/v3/view/zip.hpp>
