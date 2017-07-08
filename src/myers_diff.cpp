@@ -375,7 +375,7 @@ walk_diagonal(point_t const from, point_t const to,
     auto [x, y] = from;
 
     while (x < to.x() && y < to.y() && equal(to_size_t(x), to_size_t(y))) {
-        visitor.unchanged(to_size_t(x));
+        visitor.unchanged(to_size_t(x), to_size_t(y));
 
         ++x, ++y;
     }
@@ -402,7 +402,7 @@ walk_path(std::vector<point_t> const& path,
             ++y;
         }
 
-        walk_diagonal(from, to, equal, visitor);
+        walk_diagonal({x, y}, to, equal, visitor);
     }
 }
 
@@ -412,6 +412,9 @@ diff(size_t const size1_, size_t const size2_,
 {
     auto const size1 = to_index_t(size1_);
     auto const size2 = to_index_t(size2_);
+
+    if (size1 == 0 && size2 == 0) return 0;
+
     assert(std::numeric_limits<index_t>::max() - size1 >= size2);
 
     auto const path = find_path({ 0, 0, size1, size2 }, equal);

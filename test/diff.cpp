@@ -20,23 +20,26 @@ int main()
         v(std::string_view const& a, std::string_view const& b)
             : m_a { a }, m_b { b } {}
 
-        void unchanged(size_t const x) const override
+        void unchanged(size_t const x, size_t) const override
         {
-            std::cout << "  " << m_a[x] << "\n";
+            std::cout << m_current << "  " << m_a[x] << "\n";
+            ++m_current;
         }
 
         void deleted(size_t const x) const override
         {
-            std::cout << "- " << m_a[x] << "\n";
+            std::cout << m_current << "- " << m_a[x] << "\n";
         }
 
         void inserted(size_t const y) const override
         {
-            std::cout << "+ " << m_b[y] << "\n";
+            std::cout << m_current << "+ " << m_b[y] << "\n";
+            ++m_current;
         }
 
         std::string_view const& m_a;
         std::string_view const& m_b;
+        mutable size_t m_current = 0;
 
     } visitor { a, b };
 

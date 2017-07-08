@@ -16,7 +16,7 @@ class visitor_t
 public:
     virtual ~visitor_t() = default;
 
-    virtual void unchanged(size_t) const {}
+    virtual void unchanged(size_t, size_t) const {}
     virtual void deleted(size_t) const {}
     virtual void inserted(size_t) const {}
 };
