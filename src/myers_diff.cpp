@@ -295,7 +295,8 @@ midpoint(box_t const& box, equal_fn const& equal)
 {
     if (box.size() == 0) return {};
 
-    auto const max = to_index_t(std::ceil(box.size() / 2.0));
+    auto const max = to_index_t(
+                std::ceil(static_cast<double>(box.size()) / 2.0) );
 
     array_type vf { -max, max };
     vf[1] = box.left();

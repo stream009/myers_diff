@@ -56,7 +56,7 @@ public:
         assert(m_min <= index);
         assert(index <= m_max);
 
-        return m_values[index - m_min];
+        return m_values[static_cast<size_t>(index - m_min)];
     }
 
     value_type const& operator[](index_type const index) const
@@ -64,7 +64,7 @@ public:
         assert(m_min <= index);
         assert(index <= m_max);
 
-        return m_values[index - m_min];
+        return m_values[static_cast<size_t>(index - m_min)];
     }
 
     size_type size() const { return m_values.size(); }
