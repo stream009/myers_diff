@@ -9,10 +9,9 @@
 #include <vector>
 
 #include <boost/format.hpp>
+#include <boost/iterator/zip_iterator.hpp>
 #include <boost/numeric/conversion/cast.hpp>
-
-#include <range/v3/iterator_range.hpp>
-#include <range/v3/view/zip.hpp>
+#include <boost/range/iterator_range.hpp>
 
 namespace myers_diff {
 
@@ -353,20 +352,30 @@ find_path(box_t const& box, equal_fn const& equal)
     return results;
 }
 
+template<typename Range1, typename Range2>
+auto
+zip(Range1&& rng1, Range2&& rng2)
+{
+    using std::begin, std::end;
+
+    return boost::make_iterator_range(
+        boost::make_zip_iterator(boost::make_tuple(begin(rng1), begin(rng2))),
+        boost::make_zip_iterator(boost::make_tuple(end(rng1), end(rng2)))
+    );
+}
+
 template<typename Range>
 auto each_cons(Range&& range)
 {
-    namespace rng = ranges;
+    assert(std::size(range) >= 2);
 
-    assert(rng::size(range) >= 2);
+    auto const begin = std::begin(range);
+    auto const end = std::end(range);
 
-    auto const begin = rng::begin(range);
-    auto const end = rng::end(range);
+    auto from = boost::make_iterator_range(begin, end-1);
+    auto to = boost::make_iterator_range(begin+1, end);
 
-    auto from = rng::make_iterator_range(begin, end-1);
-    auto to = rng::make_iterator_range(begin+1, end);
-
-    return rng::view::zip(from, to);
+    return zip(from, to);
 }
 
 static point_t
@@ -388,7 +397,10 @@ static void
 walk_path(std::vector<point_t> const& path,
           equal_fn const equal, visitor_t const& visitor)
 {
-    for (auto const& [from, to]: each_cons(path)) {
+    for (auto const& tuple: each_cons(path)) {
+        auto const& from = boost::get<0>(tuple);
+        auto const& to = boost::get<1>(tuple);
+
         auto [x, y] = walk_diagonal(from, to, equal, visitor);
 
         auto const x_diff = to.x() - x;

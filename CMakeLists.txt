@@ -20,7 +20,6 @@ target_include_directories(myers_diff
         ${PROJECT_SOURCE_DIR}/include
     PRIVATE
         ${Boost_INCLUDE_DIRS}
-        3rd_party/range-v3/include
 )
 
 # don't build test when it is included as sub project
